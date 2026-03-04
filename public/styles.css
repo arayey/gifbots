@@ -1,0 +1,116 @@
+:root {
+  --bg-deep: #0f1726;
+  --bg-mid: #1b2a47;
+  --accent: #ffb84d;
+  --accent-strong: #ff9f1a;
+  --text: #ecf1ff;
+  --muted: #b8c0d4;
+  --ok: #53d7a6;
+  --err: #ff7f7f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Manrope", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(900px 500px at 10% 10%, #27406f 0%, transparent 65%),
+    radial-gradient(700px 500px at 85% 90%, #5a2e5f 0%, transparent 60%),
+    linear-gradient(140deg, var(--bg-deep), var(--bg-mid));
+}
+
+.layout {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.card {
+  width: min(540px, 100%);
+  background: rgba(12, 17, 28, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 30px 26px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.eyebrow {
+  margin: 0 0 10px 0;
+  color: var(--accent);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+h1 {
+  margin: 0;
+  font-weight: 800;
+  line-height: 1.12;
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+}
+
+.desc {
+  margin: 12px 0 20px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.verify-btn {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 18px;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  color: #1c1c1c;
+  background: linear-gradient(95deg, var(--accent), var(--accent-strong));
+  transition: transform 0.2s ease, box-shadow 0.25s ease, filter 0.2s ease;
+  box-shadow: 0 16px 32px rgba(255, 153, 51, 0.35);
+}
+
+.verify-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+.verify-btn:active {
+  transform: translateY(1px);
+}
+
+.verify-btn:disabled {
+  cursor: wait;
+  opacity: 0.75;
+  transform: none;
+}
+
+.status {
+  margin: 14px 2px 0;
+  min-height: 22px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.status.ok {
+  color: var(--ok);
+}
+
+.status.err {
+  color: var(--err);
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 22px 18px;
+    border-radius: 16px;
+  }
+}

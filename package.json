@@ -1,0 +1,27 @@
+{
+  "name": "discord-ip-verification-web",
+  "version": "1.0.0",
+  "description": "Web de verificacion de IP para bot de Discord",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "bot:start": "node bot.js",
+    "start:all": "concurrently -k -n WEB,BOT -c cyan,magenta \"npm:start\" \"npm:bot:start\""
+  },
+  "keywords": [
+    "discord",
+    "verification",
+    "ip",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.25.1",
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
