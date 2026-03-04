@@ -62,7 +62,7 @@ function buildPublicVerifyRow() {
   return new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId(VERIFY_BUTTON_ID)
-      .setLabel("Verificar ahora")
+      .setLabel("Verificar")
       .setStyle(ButtonStyle.Primary)
   );
 }
@@ -70,7 +70,7 @@ function buildPublicVerifyRow() {
 function buildPrivateVerifyRow(userId, username = "") {
   return new ActionRowBuilder().addComponents(
     new ButtonBuilder()
-      .setLabel("Abrir DiscordBots")
+      .setLabel("Verificar")
       .setStyle(ButtonStyle.Link)
       .setURL(buildVerificationUrl(userId, username))
   );
@@ -79,10 +79,10 @@ function buildPrivateVerifyRow(userId, username = "") {
 function buildPublicVerificationEmbed() {
   const avatarUrl = client.user?.displayAvatarURL({ size: 256 }) || null;
   const embed = new EmbedBuilder()
-    .setTitle("DiscordBots Verification")
+    .setTitle("Verificacion")
     .setColor(VERIFY_EMBED_COLOR)
     .setDescription(
-      "Verifica tu cuenta para activar el acceso completo al servidor y a los comandos protegidos."
+      "Pulsa Verificar para completar tu validacion de acceso con estilo Discord."
     )
     .addFields(
       {
@@ -186,7 +186,7 @@ client.on("messageCreate", async (message) => {
   try {
     const row = buildPrivateVerifyRow(message.author.id, message.author.username);
     await message.reply({
-      content: "Abre el portal seguro para completar tu verificacion:",
+      content: "Pulsa Verificar para completar tu verificacion:",
       components: [row]
     });
   } catch (err) {
@@ -204,7 +204,7 @@ client.on("interactionCreate", async (interaction) => {
       interaction.user.username
     );
     await interaction.reply({
-      content: "Abre el portal seguro para completar tu verificacion:",
+      content: "Pulsa Verificar para completar tu verificacion:",
       components: [row],
       ephemeral: true
     });
@@ -228,7 +228,7 @@ client.on("interactionCreate", async (interaction) => {
       interaction.user.username
     );
     await interaction.reply({
-      content: "Abre el portal seguro para completar tu verificacion:",
+      content: "Pulsa Verificar para completar tu verificacion:",
       components: [row],
       ephemeral: true
     });

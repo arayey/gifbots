@@ -1,12 +1,9 @@
 :root {
   --discord-bg: #1e1f22;
-  --discord-surface: #2b2d31;
   --discord-panel: #313338;
   --discord-border: #3f4147;
-  --discord-brand: #5865f2;
   --discord-text: #f2f3f5;
   --discord-muted: #b5bac1;
-  --discord-muted-soft: #949ba4;
   --ok: #23a559;
   --err: #da373c;
 }
@@ -21,81 +18,24 @@ body {
   font-family: "DM Sans", "Segoe UI", sans-serif;
   color: var(--discord-text);
   background:
-    radial-gradient(700px 350px at 10% -10%, #5865f222 0%, transparent 70%),
-    radial-gradient(900px 500px at 100% 110%, #404eed33 0%, transparent 70%),
-    linear-gradient(180deg, #111214, var(--discord-bg));
+    radial-gradient(700px 350px at 50% -10%, #5865f222 0%, transparent 65%),
+    linear-gradient(180deg, #17181b, var(--discord-bg));
 }
 
 .layout {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 28px;
-}
-
-.shell {
-  width: min(940px, 100%);
-  min-height: 420px;
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  border: 1px solid var(--discord-border);
-  border-radius: 18px;
-  overflow: hidden;
-  background: #232428;
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
-}
-
-.hero {
-  padding: 32px 28px;
-  background:
-    radial-gradient(300px 220px at 30% 30%, #5865f255 0%, transparent 70%),
-    linear-gradient(160deg, #25283f 0%, #202336 35%, #1c1d21 100%);
-  display: flex;
-  flex-direction: column;
-}
-
-.hero-overline {
-  margin: 0;
-  font-size: 0.76rem;
-  color: #d8dcff;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-
-.hero-title {
-  margin: 14px 0 10px;
-  font-size: clamp(1.3rem, 3vw, 1.9rem);
-  line-height: 1.15;
-  font-weight: 700;
-}
-
-.hero-text {
-  margin: 0;
-  line-height: 1.5;
-  color: #cfd3de;
-}
-
-.hero-dots {
-  margin-top: auto;
-  display: flex;
-  gap: 8px;
-}
-
-.hero-dots span {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #7482ff;
-  opacity: 0.9;
+  padding: 24px;
 }
 
 .card {
+  width: min(540px, 100%);
   background: var(--discord-panel);
-  padding: 30px 26px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  border: 1px solid var(--discord-border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
 }
 
 .brand {
@@ -105,38 +45,39 @@ body {
 }
 
 .logo-wrap {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   display: grid;
   place-items: center;
   color: #fff;
-  font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
-  border-radius: 10px;
+  border-radius: 12px;
   background: linear-gradient(135deg, #5865f2, #4752c4);
-  border: 1px solid #717cff66;
+}
+
+.discord-logo {
+  width: 28px;
+  height: 20px;
 }
 
 .eyebrow {
   margin: 0;
-  color: var(--discord-muted-soft);
-  font-weight: 500;
+  color: var(--discord-muted);
+  font-weight: 600;
   letter-spacing: 0.03em;
   font-size: 0.82rem;
 }
 
 h1 {
-  margin: 2px 0 0;
+  margin: 2px 0 0 0;
   font-weight: 700;
   line-height: 1.12;
   font-size: clamp(1.4rem, 4vw, 1.95rem);
 }
 
 .desc {
-  margin: 16px 0 14px;
+  margin: 14px 0 14px;
   color: var(--discord-muted);
-  line-height: 1.55;
+  line-height: 1.5;
 }
 
 .progress {
@@ -184,14 +125,6 @@ h1 {
 @media (max-width: 480px) {
   .layout {
     padding: 16px;
-  }
-
-  .shell {
-    grid-template-columns: 1fr;
-  }
-
-  .hero {
-    padding: 20px 18px;
   }
 
   .card {

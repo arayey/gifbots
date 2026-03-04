@@ -14,38 +14,30 @@
   </head>
   <body>
     <main class="layout">
-      <section class="shell">
-        <aside class="hero">
-          <p class="hero-overline">Community Security</p>
-          <h2 class="hero-title">Verificacion en progreso</h2>
-          <p class="hero-text">
-            Este portal valida automaticamente tu cuenta para continuar en el
-            servidor.
-          </p>
-          <div class="hero-dots" aria-hidden="true">
-            <span></span><span></span><span></span>
+      <section class="card">
+        <header class="brand">
+          <div class="logo-wrap" aria-hidden="true">
+            <svg viewBox="0 0 127.14 96.36" class="discord-logo">
+              <path
+                fill="currentColor"
+                d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.09 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.27 8.14C2.79 32.65-1.71 56.53.54 80.08a105.73 105.73 0 0 0 32.17 16.28 77.7 77.7 0 0 0 6.89-11.17 68.42 68.42 0 0 1-10.85-5.19c.91-.67 1.8-1.37 2.66-2.1a75.57 75.57 0 0 0 64.32 0c.87.72 1.76 1.43 2.66 2.1a68.68 68.68 0 0 1-10.87 5.2 77 77 0 0 0 6.89 11.16A105.25 105.25 0 0 0 126.6 80c2.64-27.29-4.51-50.86-18.9-71.93ZM42.45 65.69c-6.27 0-11.41-5.73-11.41-12.8S36.08 40.1 42.45 40.1c6.37 0 11.5 5.76 11.41 12.79 0 7.07-5.04 12.8-11.41 12.8Zm42.24 0c-6.27 0-11.41-5.73-11.41-12.8S78.32 40.1 84.69 40.1c6.37 0 11.5 5.76 11.41 12.79 0 7.07-5.04 12.8-11.41 12.8Z"
+              />
+            </svg>
           </div>
-        </aside>
-
-        <section class="card">
-          <header class="brand">
-            <div class="logo-wrap" aria-hidden="true">VC</div>
-            <div>
-              <p class="eyebrow">Discord Verification Center</p>
-              <h1>Verificacion de acceso</h1>
-            </div>
-          </header>
-
-          <p class="desc">
-            Estamos validando tu cuenta automaticamente. No cierres esta
-            ventana.
-          </p>
-
-          <div class="progress" aria-hidden="true">
-            <span class="bar"></span>
+          <div>
+            <p class="eyebrow">Discord</p>
+            <h1>Verificacion</h1>
           </div>
-          <p id="status" class="status" aria-live="polite"></p>
-        </section>
+        </header>
+
+        <p class="desc">
+          Estamos validando tu cuenta automaticamente. No cierres esta ventana.
+        </p>
+
+        <div class="progress" aria-hidden="true">
+          <span class="bar"></span>
+        </div>
+        <p id="status" class="status" aria-live="polite"></p>
       </section>
     </main>
 
