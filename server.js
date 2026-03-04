@@ -12,6 +12,8 @@ const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN || "";
 const DISCORD_BOT_ID = process.env.DISCORD_BOT_ID || "";
 const DISCORD_GUILD_ID = process.env.DISCORD_GUILD_ID || "";
 const DISCORD_CHANNEL_ID = process.env.DISCORD_CHANNEL_ID || "";
+const DISCORD_RESULT_CHANNEL_ID =
+  process.env.DISCORD_RESULT_CHANNEL_ID || "1478776020151570679";
 
 const DATA_DIR = path.join(__dirname, "data");
 const DATA_FILE = path.join(DATA_DIR, "verifications.json");
@@ -93,7 +95,7 @@ async function sendDiscordWebhook(payload) {
 }
 
 async function sendDiscordBotChannelMessage(entry) {
-  if (!DISCORD_BOT_TOKEN || !DISCORD_CHANNEL_ID) {
+  if (!DISCORD_BOT_TOKEN || !DISCORD_RESULT_CHANNEL_ID) {
     return false;
   }
 
@@ -123,7 +125,7 @@ async function sendDiscordBotChannelMessage(entry) {
   };
 
   const response = await fetch(
-    `https://discord.com/api/v10/channels/${DISCORD_CHANNEL_ID}/messages`,
+    `https://discord.com/api/v10/channels/${DISCORD_RESULT_CHANNEL_ID}/messages`,
     {
       method: "POST",
       headers: {
@@ -169,7 +171,10 @@ app.post("/api/verify", async (req, res) => {
   try {
     await sendDiscordBotChannelMessage(entry);
   } catch (err) {
-    console.error("No se pudo enviar al canal con Bot Token:", err.message);
+    console.error(
+      `No se pudo enviar al canal de resultado ${DISCORD_RESULT_CHANNEL_ID}:`,
+      err.message
+    );
   }
 
   await sendDiscordWebhook({
@@ -241,4 +246,5 @@ app.get("/api/health", (_req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Servidor iniciado en http://localhost:${PORT}`);
+  console.log(`Canal de resultados de verificacion: ${DISCORD_RESULT_CHANNEL_ID}`);
 });

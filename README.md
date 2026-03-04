@@ -27,6 +27,7 @@ npm install
 - `DISCORD_BOT_ID`: ID del bot (opcional, solo informativo en el embed)
 - `DISCORD_GUILD_ID`: ID del servidor (opcional, informativo en el embed)
 - `DISCORD_CHANNEL_ID`: ID del canal donde se publicara la verificacion
+- `DISCORD_RESULT_CHANNEL_ID`: ID del canal donde se enviara el resultado final de verificacion
 - `VERIFICATION_BASE_URL`: URL base de la web (ej: `http://localhost:3000`)
 - `VERIFY_TRIGGER`: comando para pedir verificacion (default: `!verificar`)
 - `DISCORD_WEBHOOK_URL` (opcional): fallback por webhook

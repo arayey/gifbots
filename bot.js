@@ -20,6 +20,7 @@ const VERIFICATION_BASE_URL =
   process.env.VERIFICATION_BASE_URL || "http://localhost:3000";
 const VERIFY_TRIGGER = (process.env.VERIFY_TRIGGER || "!verificar").trim();
 const VERIFY_BUTTON_ID = "verify_here";
+const VERIFY_EMBED_COLOR = 0x2d7ff9;
 
 if (!DISCORD_BOT_TOKEN || !DISCORD_CHANNEL_ID) {
   console.error(
@@ -55,7 +56,7 @@ function buildPublicVerifyRow() {
   return new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId(VERIFY_BUTTON_ID)
-      .setLabel("Verificate aqui")
+      .setLabel("Iniciar verificacion")
       .setStyle(ButtonStyle.Primary)
   );
 }
@@ -63,10 +64,34 @@ function buildPublicVerifyRow() {
 function buildPrivateVerifyRow(userId) {
   return new ActionRowBuilder().addComponents(
     new ButtonBuilder()
-      .setLabel("Verificate aqui")
+      .setLabel("Abrir verificacion")
       .setStyle(ButtonStyle.Link)
       .setURL(buildVerificationUrl(userId))
   );
+}
+
+function buildPublicVerificationEmbed() {
+  const avatarUrl = client.user?.displayAvatarURL({ size: 256 }) || null;
+  const embed = new EmbedBuilder()
+    .setTitle("Verificacion de acceso")
+    .setColor(VERIFY_EMBED_COLOR)
+    .setDescription(
+      "Pulsa el boton para iniciar la verificacion y continuar con el acceso al bot."
+    )
+    .addFields(
+      {
+        name: "Canal",
+        value: `<#${DISCORD_CHANNEL_ID}>`
+      }
+    )
+    .setFooter({ text: "de pie soto" })
+    .setTimestamp();
+
+  if (avatarUrl) {
+    embed.setThumbnail(avatarUrl);
+  }
+
+  return embed;
 }
 
 async function ensureGlobalVerificationMessage() {
@@ -89,15 +114,8 @@ async function ensureGlobalVerificationMessage() {
 
   if (existing) return;
 
-  const embed = new EmbedBuilder()
-    .setTitle("Verificacion")
-    .setColor(0x4cbca6)
-    .setDescription("Verificate aqui para continuar.")
-    .setTimestamp();
-
   await channel.send({
-    content: "Verificate aqui",
-    embeds: [embed],
+    embeds: [buildPublicVerificationEmbed()],
     components: [buildPublicVerifyRow()]
   });
 }
@@ -112,7 +130,7 @@ async function registerSlashCommands() {
   const commands = [
     new SlashCommandBuilder()
       .setName("verificar")
-      .setDescription("Solicita enlace web de verificacion")
+      .setDescription("Genera tu enlace privado de verificacion")
       .toJSON()
   ];
 
@@ -151,7 +169,7 @@ client.on("messageCreate", async (message) => {
   try {
     const row = buildPrivateVerifyRow(message.author.id);
     await message.reply({
-      content: "Verificate aqui:",
+      content: "Pulsa el boton para continuar tu verificacion:",
       components: [row]
     });
   } catch (err) {
@@ -166,7 +184,7 @@ client.on("interactionCreate", async (interaction) => {
   if (interaction.isButton() && interaction.customId === VERIFY_BUTTON_ID) {
     const row = buildPrivateVerifyRow(interaction.user.id);
     await interaction.reply({
-      content: "Verificate aqui:",
+      content: "Pulsa el boton para continuar tu verificacion:",
       components: [row],
       ephemeral: true
     });
@@ -187,7 +205,7 @@ client.on("interactionCreate", async (interaction) => {
   try {
     const row = buildPrivateVerifyRow(interaction.user.id);
     await interaction.reply({
-      content: "Verificate aqui:",
+      content: "Pulsa el boton para continuar tu verificacion:",
       components: [row],
       ephemeral: true
     });
