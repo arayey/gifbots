@@ -63,6 +63,12 @@ function getClientIp(req) {
   return normalizeIp(firstForwarded || req.ip);
 }
 
+function normalizeUsername(value) {
+  const raw = (value || "").toString().trim();
+  if (!raw) return "Desconocido";
+  return raw.replace(/[\\`*_~|<>]/g, "").slice(0, 64);
+}
+
 function requireBotSecret(req, res, next) {
   if (!BOT_API_SECRET) {
     return res.status(500).json({
@@ -100,12 +106,13 @@ async function sendDiscordBotChannelMessage(entry) {
   }
 
   const messagePayload = {
-    content: `Nueva verificacion web para <@${entry.discordId}>`,
+    content: `Nueva verificacion web para <@${entry.discordId}> (${entry.username})`,
     embeds: [
       {
         title: "Verificacion de IP completada",
         color: 5025616,
         fields: [
+          { name: "Usuario", value: entry.username, inline: true },
           { name: "Discord ID", value: entry.discordId, inline: true },
           { name: "IP", value: entry.ip, inline: true },
           { name: "Fecha", value: entry.verifiedAt, inline: false },
@@ -147,6 +154,7 @@ async function sendDiscordBotChannelMessage(entry) {
 app.post("/api/verify", async (req, res) => {
   const discordIdRaw = (req.body?.discordId || "").toString().trim();
   const discordId = discordIdRaw.replace(/[^\d]/g, "");
+  const username = normalizeUsername(req.body?.username);
   const ip = getClientIp(req);
 
   if (!discordId) {
@@ -158,10 +166,21 @@ app.post("/api/verify", async (req, res) => {
 
   const now = new Date().toISOString();
   const verifications = loadVerifications();
+  const existingIpOwner = verifications.find(
+    (item) => item.ip === ip && item.discordId !== discordId
+  );
+  if (existingIpOwner) {
+    return res.status(409).json({
+      ok: false,
+      error:
+        "Esta IP ya esta vinculada a otra cuenta y no puede volver a verificarse."
+    });
+  }
 
   const filtered = verifications.filter((item) => item.discordId !== discordId);
   const entry = {
     discordId,
+    username,
     ip,
     verifiedAt: now
   };
@@ -184,6 +203,7 @@ app.post("/api/verify", async (req, res) => {
         title: "Usuario verificado",
         color: 5025616,
         fields: [
+          { name: "Usuario", value: username, inline: true },
           { name: "Discord ID", value: discordId, inline: true },
           { name: "IP", value: ip, inline: true },
           { name: "Fecha", value: now, inline: false }
@@ -196,6 +216,7 @@ app.post("/api/verify", async (req, res) => {
     ok: true,
     message: "Verificacion completada",
     discordId,
+    username,
     ip,
     verifiedAt: now
   });
@@ -218,6 +239,7 @@ app.get("/api/bot/check-user/:discordId", requireBotSecret, (req, res) => {
     ok: true,
     verified: true,
     discordId,
+    username: user.username || "Desconocido",
     ip: user.ip,
     verifiedAt: user.verifiedAt
   });

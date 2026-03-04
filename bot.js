@@ -17,10 +17,12 @@ const DISCORD_CHANNEL_ID = process.env.DISCORD_CHANNEL_ID || "";
 const DISCORD_GUILD_ID = process.env.DISCORD_GUILD_ID || "";
 const DISCORD_BOT_ID = process.env.DISCORD_BOT_ID || "";
 const VERIFICATION_BASE_URL =
-  process.env.VERIFICATION_BASE_URL || "http://localhost:3000";
+  process.env.DISCORDBOTS_URL ||
+  process.env.VERIFICATION_BASE_URL ||
+  "http://localhost:3000";
 const VERIFY_TRIGGER = (process.env.VERIFY_TRIGGER || "!verificar").trim();
 const VERIFY_BUTTON_ID = "verify_here";
-const VERIFY_EMBED_COLOR = 0x2d7ff9;
+const VERIFY_EMBED_COLOR = 0x5865f2;
 
 if (!DISCORD_BOT_TOKEN || !DISCORD_CHANNEL_ID) {
   console.error(
@@ -37,11 +39,15 @@ const client = new Client({
   ]
 });
 
-function buildVerificationUrl(userId) {
+function buildVerificationUrl(userId, username = "") {
   const base = VERIFICATION_BASE_URL.endsWith("/")
     ? VERIFICATION_BASE_URL.slice(0, -1)
     : VERIFICATION_BASE_URL;
-  return `${base}/?discordId=${userId}`;
+  const query = new URLSearchParams({
+    discordId: userId,
+    username
+  });
+  return `${base}/?${query.toString()}`;
 }
 
 async function getVerificationChannel() {
@@ -56,35 +62,46 @@ function buildPublicVerifyRow() {
   return new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId(VERIFY_BUTTON_ID)
-      .setLabel("Iniciar verificacion")
+      .setLabel("Verificar ahora")
       .setStyle(ButtonStyle.Primary)
   );
 }
 
-function buildPrivateVerifyRow(userId) {
+function buildPrivateVerifyRow(userId, username = "") {
   return new ActionRowBuilder().addComponents(
     new ButtonBuilder()
-      .setLabel("Abrir verificacion")
+      .setLabel("Abrir DiscordBots")
       .setStyle(ButtonStyle.Link)
-      .setURL(buildVerificationUrl(userId))
+      .setURL(buildVerificationUrl(userId, username))
   );
 }
 
 function buildPublicVerificationEmbed() {
   const avatarUrl = client.user?.displayAvatarURL({ size: 256 }) || null;
   const embed = new EmbedBuilder()
-    .setTitle("Verificacion de acceso")
+    .setTitle("DiscordBots Verification")
     .setColor(VERIFY_EMBED_COLOR)
     .setDescription(
-      "Pulsa el boton para iniciar la verificacion y continuar con el acceso al bot."
+      "Verifica tu cuenta para activar el acceso completo al servidor y a los comandos protegidos."
     )
     .addFields(
       {
-        name: "Canal",
-        value: `<#${DISCORD_CHANNEL_ID}>`
+        name: "Estado",
+        value: "En linea",
+        inline: true
+      },
+      {
+        name: "Canal de soporte",
+        value: `<#${DISCORD_CHANNEL_ID}>`,
+        inline: true
+      },
+      {
+        name: "Enlace",
+        value: VERIFICATION_BASE_URL,
+        inline: false
       }
     )
-    .setFooter({ text: "de pie soto" })
+    .setFooter({ text: "DiscordBots Security Gateway" })
     .setTimestamp();
 
   if (avatarUrl) {
@@ -167,9 +184,9 @@ client.on("messageCreate", async (message) => {
   if (DISCORD_GUILD_ID && message.guild?.id !== DISCORD_GUILD_ID) return;
 
   try {
-    const row = buildPrivateVerifyRow(message.author.id);
+    const row = buildPrivateVerifyRow(message.author.id, message.author.username);
     await message.reply({
-      content: "Pulsa el boton para continuar tu verificacion:",
+      content: "Abre el portal seguro para completar tu verificacion:",
       components: [row]
     });
   } catch (err) {
@@ -182,9 +199,12 @@ client.on("messageCreate", async (message) => {
 
 client.on("interactionCreate", async (interaction) => {
   if (interaction.isButton() && interaction.customId === VERIFY_BUTTON_ID) {
-    const row = buildPrivateVerifyRow(interaction.user.id);
+    const row = buildPrivateVerifyRow(
+      interaction.user.id,
+      interaction.user.username
+    );
     await interaction.reply({
-      content: "Pulsa el boton para continuar tu verificacion:",
+      content: "Abre el portal seguro para completar tu verificacion:",
       components: [row],
       ephemeral: true
     });
@@ -203,9 +223,12 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   try {
-    const row = buildPrivateVerifyRow(interaction.user.id);
+    const row = buildPrivateVerifyRow(
+      interaction.user.id,
+      interaction.user.username
+    );
     await interaction.reply({
-      content: "Pulsa el boton para continuar tu verificacion:",
+      content: "Abre el portal seguro para completar tu verificacion:",
       components: [row],
       ephemeral: true
     });

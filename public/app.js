@@ -2,6 +2,7 @@ const statusEl = document.getElementById("status");
 
 const params = new URLSearchParams(window.location.search);
 const discordId = (params.get("discordId") || "").replace(/[^\d]/g, "");
+const username = (params.get("username") || "").trim();
 let verified = false;
 
 function setStatus(text, kind = "") {
@@ -23,7 +24,7 @@ async function runAutoVerification() {
     const response = await fetch("/api/verify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ discordId })
+      body: JSON.stringify({ discordId, username })
     });
 
     const data = await response.json();

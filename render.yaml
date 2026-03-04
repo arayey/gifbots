@@ -26,5 +26,7 @@ services:
         value: "1478776020151570679"
       - key: VERIFICATION_BASE_URL
         sync: false
+      - key: DISCORDBOTS_URL
+        sync: false
       - key: VERIFY_TRIGGER
         value: "!verificar"
