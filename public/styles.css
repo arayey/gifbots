@@ -1,12 +1,12 @@
 :root {
-  --bg-deep: #0f1726;
-  --bg-mid: #1b2a47;
-  --accent: #ffb84d;
-  --accent-strong: #ff9f1a;
-  --text: #ecf1ff;
-  --muted: #b8c0d4;
-  --ok: #53d7a6;
-  --err: #ff7f7f;
+  --discord-bg: #1e1f22;
+  --discord-panel: #313338;
+  --discord-border: #3f4147;
+  --discord-brand: #5865f2;
+  --discord-text: #f2f3f5;
+  --discord-muted: #b5bac1;
+  --ok: #23a559;
+  --err: #da373c;
 }
 
 * {
@@ -16,12 +16,11 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: "Manrope", sans-serif;
-  color: var(--text);
+  font-family: "DM Sans", "Segoe UI", sans-serif;
+  color: var(--discord-text);
   background:
-    radial-gradient(900px 500px at 10% 10%, #27406f 0%, transparent 65%),
-    radial-gradient(700px 500px at 85% 90%, #5a2e5f 0%, transparent 60%),
-    linear-gradient(140deg, var(--bg-deep), var(--bg-mid));
+    radial-gradient(700px 400px at 85% -20%, #404eed44 0%, transparent 65%),
+    linear-gradient(180deg, #202225, var(--discord-bg));
 }
 
 .layout {
@@ -32,72 +31,79 @@ body {
 }
 
 .card {
-  width: min(540px, 100%);
-  background: rgba(12, 17, 28, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 20px;
-  padding: 30px 26px;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(8px);
+  width: min(560px, 100%);
+  background: var(--discord-panel);
+  border: 1px solid var(--discord-border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo-wrap {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #5865f2, #4752c4);
+}
+
+.discord-logo {
+  width: 30px;
+  height: 22px;
 }
 
 .eyebrow {
-  margin: 0 0 10px 0;
-  color: var(--accent);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-size: 0.75rem;
+  margin: 0;
+  color: var(--discord-muted);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  font-size: 0.82rem;
 }
 
 h1 {
-  margin: 0;
-  font-weight: 800;
+  margin: 2px 0 0;
+  font-weight: 700;
   line-height: 1.12;
-  font-size: clamp(1.6rem, 4vw, 2.25rem);
+  font-size: clamp(1.4rem, 4vw, 1.95rem);
 }
 
 .desc {
-  margin: 12px 0 20px;
-  color: var(--muted);
+  margin: 16px 0 14px;
+  color: var(--discord-muted);
   line-height: 1.5;
 }
 
-.verify-btn {
+.progress {
   width: 100%;
-  border: none;
-  border-radius: 14px;
-  padding: 16px 18px;
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  color: #1c1c1c;
-  background: linear-gradient(95deg, var(--accent), var(--accent-strong));
-  transition: transform 0.2s ease, box-shadow 0.25s ease, filter 0.2s ease;
-  box-shadow: 0 16px 32px rgba(255, 153, 51, 0.35);
+  height: 8px;
+  border-radius: 999px;
+  background: #24262a;
+  overflow: hidden;
+  border: 1px solid #2f3136;
 }
 
-.verify-btn:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.04);
-}
-
-.verify-btn:active {
-  transform: translateY(1px);
-}
-
-.verify-btn:disabled {
-  cursor: wait;
-  opacity: 0.75;
-  transform: none;
+.bar {
+  display: block;
+  width: 45%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #5865f2, #7a85ff);
+  animation: loading 1.4s ease-in-out infinite;
 }
 
 .status {
   margin: 14px 2px 0;
   min-height: 22px;
-  font-size: 0.95rem;
-  color: var(--muted);
+  font-size: 0.96rem;
+  color: var(--discord-muted);
 }
 
 .status.ok {
@@ -106,6 +112,15 @@ h1 {
 
 .status.err {
   color: var(--err);
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(250%);
+  }
 }
 
 @media (max-width: 480px) {
