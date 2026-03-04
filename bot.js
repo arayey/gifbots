@@ -94,14 +94,8 @@ function buildPublicVerificationEmbed() {
         name: "Canal de soporte",
         value: `<#${DISCORD_CHANNEL_ID}>`,
         inline: true
-      },
-      {
-        name: "Enlace",
-        value: VERIFICATION_BASE_URL,
-        inline: false
       }
     )
-    .setFooter({ text: "DiscordBots Security Gateway" })
     .setTimestamp();
 
   if (avatarUrl) {
