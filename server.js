@@ -244,7 +244,13 @@ app.get("/api/health", (_req, res) => {
   res.json({ ok: true, service: "discord-ip-verification-web" });
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor iniciado en http://localhost:${PORT}`);
-  console.log(`Canal de resultados de verificacion: ${DISCORD_RESULT_CHANNEL_ID}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Servidor iniciado en http://localhost:${PORT}`);
+    console.log(
+      `Canal de resultados de verificacion: ${DISCORD_RESULT_CHANNEL_ID}`
+    );
+  });
+}
+
+module.exports = app;
